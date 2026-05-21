@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const navItems = [
     { name: "Home", link: "#home", icon: "🏠" },
     { name: "Education", link: "#education", icon: "🎓" },
@@ -13,45 +15,35 @@ function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50">
       <div
         className="w-full flex items-center justify-between
-        px-8 lg:px-20 py-5
-        bg-slate-900/40 backdrop-blur-2xl
-        border-b border-white/10
-        shadow-2xl relative overflow-hidden"
+        px-6 lg:px-20 py-4
+        bg-slate-900/70 backdrop-blur-xl
+        border-b border-white/10 shadow-2xl relative"
       >
-        {/* Glow */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-cyan-500/10 blur-3xl rounded-full"></div>
-        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/10 blur-3xl rounded-full"></div>
-
         {/* Logo */}
         <a
           href="#home"
-          className="relative text-3xl lg:text-4xl font-extrabold
+          className="text-2xl lg:text-4xl font-extrabold
           bg-gradient-to-r from-cyan-300 via-blue-400 to-indigo-400
-          bg-clip-text text-transparent
-          hover:scale-110 transition duration-500"
+          bg-clip-text text-transparent"
         >
           Archana D
         </a>
 
-        {/* Nav Links */}
-        <ul className="relative hidden md:flex items-center gap-10 text-white font-medium">
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex items-center gap-8 text-white font-medium">
           {navItems.map((item, index) => (
             <li key={index} className="group relative flex items-center gap-2">
-
-              {/* ICON (small image style) */}
-              <span className="text-sm bg-white/10 px-2 py-1 rounded-full group-hover:bg-cyan-500/20 transition">
+              <span className="text-sm bg-white/10 px-2 py-1 rounded-full">
                 {item.icon}
               </span>
 
-              {/* LINK */}
               <a
                 href={item.link}
-                className="text-lg tracking-wide hover:text-cyan-300 transition duration-300 active:scale-95"
+                className="text-lg hover:text-cyan-300 transition"
               >
                 {item.name}
               </a>
 
-              {/* underline animation */}
               <span
                 className="absolute left-0 -bottom-2
                 w-0 h-[2px]
@@ -59,25 +51,64 @@ function Navbar() {
                 transition-all duration-500
                 group-hover:w-full"
               ></span>
-
             </li>
           ))}
         </ul>
 
-        {/* Button */}
+        {/* Hire Me Button */}
         <a
           href="#contact"
-          className="relative hidden md:flex
-          px-7 py-3 rounded-full
+          className="hidden md:flex px-6 py-3 rounded-full
           bg-gradient-to-r from-blue-600 to-cyan-500
           text-white font-semibold
-          shadow-lg shadow-cyan-500/20
-          hover:scale-105 hover:shadow-cyan-400/40
-          transition duration-300 active:scale-95"
+          hover:scale-105 transition"
         >
           Hire Me
         </a>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white text-3xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "✖" : "☰"}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div
+          className="md:hidden bg-slate-900/95 backdrop-blur-xl
+          border-b border-white/10 px-6 py-6"
+        >
+          <ul className="flex flex-col gap-6 text-white">
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <a
+                  href={item.link}
+                  className="flex items-center gap-3 text-lg hover:text-cyan-300 transition"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span className="bg-white/10 px-2 py-1 rounded-full">
+                    {item.icon}
+                  </span>
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="#contact"
+            className="mt-6 inline-block w-full text-center
+            px-6 py-3 rounded-full
+            bg-gradient-to-r from-blue-600 to-cyan-500
+            text-white font-semibold"
+          >
+            Hire Me
+          </a>
+        </div>
+      )}
     </nav>
   );
 }
